@@ -1,4 +1,5 @@
 # Built Assets
+node_modules
 build/
 external/*.js
 browser.json
