@@ -1,9 +1,10 @@
 # Built Assets
+node_modules
 build/
 external/*.js
 browser.json
 metrics.json
-extensions/ublock
+.history
 
 # MAC
 .DS_Store
