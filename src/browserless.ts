@@ -1,26 +1,28 @@
+import * as path from 'path';
+import {
+  BrowserHTTPRoute,
+  BrowserManager,
+  BrowserWebsocketRoute,
+  Config,
+  FileSystem,
+  HTTPRoute,
+  HTTPServer,
+  IBrowserlessStats,
+  Limiter,
+  Metrics,
+  Monitoring,
+  WebHooks,
+  WebSocketRoute,
+  availableBrowsers,
+  createLogger,
+  getRouteFiles,
+  makeExternalURL,
+  printLogo,
+  safeParse,
+} from '@browserless.io/browserless';
 import { readFile } from 'fs/promises';
 import { userInfo } from 'os';
-import * as path from 'path';
 
-import { BrowserManager } from './browsers/index.js';
-import { Config } from './config.js';
-import { FileSystem } from './file-system.js';
-import { Limiter } from './limiter.js';
-import { Metrics } from './metrics.js';
-import { Monitoring } from './monitoring.js';
-import { HTTPServer } from './server.js';
-
-import {
-  HTTPRoute,
-  BrowserHTTPRoute,
-  WebSocketRoute,
-  BrowserWebsocketRoute,
-  IBrowserlessStats,
-} from './types.js';
-import * as utils from './utils.js';
-import { WebHooks } from './webhooks.js';
-
-const debug = utils.createLogger('index');
 const routeSchemas = ['body', 'query'];
 
 export class Browserless {
@@ -31,6 +33,7 @@ export class Browserless {
   private browserManager: BrowserManager;
   private limiter: Limiter;
   private webhooks: WebHooks;
+  private debug: debug.Debugger = createLogger('index');
 
   webSocketRouteFiles: string[] = [];
   httpRouteFiles: string[] = [];
@@ -78,7 +81,7 @@ export class Browserless {
 
     this.metrics.reset();
 
-    debug(
+    this.debug(
       `Current period usage: ${JSON.stringify({
         date: aggregatedStats.date,
         error: aggregatedStats.error,
@@ -95,7 +98,7 @@ export class Browserless {
     );
 
     if (metricsPath) {
-      debug(`Saving metrics to "${metricsPath}"`);
+      this.debug(`Saving metrics to "${metricsPath}"`);
       this.fileSystem.append(metricsPath, JSON.stringify(aggregatedStats));
     }
   };
@@ -141,20 +144,14 @@ export class Browserless {
     const httpRoutes: Array<HTTPRoute | BrowserHTTPRoute> = [];
     const wsRoutes: Array<WebSocketRoute | BrowserWebsocketRoute> = [];
 
-    const [[httpRouteFiles, wsRouteFiles], availableBrowsers] =
-      await Promise.all([
-        utils.getRouteFiles(this.config),
-        utils.availableBrowsers,
-      ]);
+    const [[httpRouteFiles, wsRouteFiles], installedBrowsers] =
+      await Promise.all([getRouteFiles(this.config), availableBrowsers]);
 
-    const docsLink = utils.makeExternalURL(
-      this.config.getExternalAddress(),
-      '/docs',
-    );
+    const docsLink = makeExternalURL(this.config.getExternalAddress(), '/docs');
 
-    debug(utils.printLogo(docsLink));
-    debug(`Running as user "${userInfo().username}"`);
-    debug('Starting import of HTTP Routes');
+    this.debug(printLogo(docsLink));
+    this.debug(`Running as user "${userInfo().username}"`);
+    this.debug('Starting import of HTTP Routes');
     for (const httpRoute of httpRouteFiles) {
       if (httpRoute.endsWith('js')) {
         const { name } = path.parse(httpRoute);
@@ -171,12 +168,12 @@ export class Browserless {
         const routeImport = `${
           this.config.getIsWin() ? 'file:///' : ''
         }${httpRoute}`;
-        const logger = utils.createLogger(`http:${name}`);
+        const logger = createLogger(`http:${name}`);
         const { default: route }: { default: HTTPRoute | BrowserHTTPRoute } =
           await import(routeImport + `?cb=${Date.now()}`);
 
-        route.bodySchema = utils.safeParse(bodySchema);
-        route.querySchema = utils.safeParse(querySchema);
+        route.bodySchema = safeParse(bodySchema);
+        route.querySchema = safeParse(querySchema);
         route._config = () => this.config;
         route._metrics = () => this.metrics;
         route._monitor = () => this.monitoring;
@@ -187,7 +184,7 @@ export class Browserless {
       }
     }
 
-    debug('Starting import of WebSocket Routes');
+    this.debug('Starting import of WebSocket Routes');
     for (const wsRoute of wsRouteFiles) {
       if (wsRoute.endsWith('js')) {
         const { name } = path.parse(wsRoute);
@@ -204,14 +201,14 @@ export class Browserless {
         const wsImport = `${
           this.config.getIsWin() ? 'file:///' : ''
         }${wsRoute}`;
-        const logger = utils.createLogger(`ws:${name}`);
+        const logger = createLogger(`ws:${name}`);
         const {
           default: route,
         }: { default: WebSocketRoute | BrowserWebsocketRoute } = await import(
           wsImport + `?cb=${Date.now()}`
         );
 
-        route.querySchema = utils.safeParse(querySchema);
+        route.querySchema = safeParse(querySchema);
         route._config = () => this.config;
         route._metrics = () => this.metrics;
         route._monitor = () => this.monitoring;
@@ -226,7 +223,7 @@ export class Browserless {
     [...httpRoutes, ...wsRoutes].forEach((route) => {
       if (
         route.browser &&
-        !availableBrowsers.some((b) => b.name === route.browser.name)
+        !installedBrowsers.some((b) => b.name === route.browser.name)
       ) {
         throw new Error(
           `Couldn't load route "${route.path}" due to missing browser of "${route.browser.name}"`,
@@ -234,7 +231,7 @@ export class Browserless {
       }
     });
 
-    debug(`Imported and validated all route files, starting up server.`);
+    this.debug(`Imported and validated all route files, starting up server.`);
 
     this.server = new HTTPServer(
       this.config,
@@ -246,7 +243,7 @@ export class Browserless {
     );
 
     await this.server.start();
-    debug(`Starting metrics collection.`);
+    this.debug(`Starting metrics collection.`);
     this.metricsSaveIntervalID = setInterval(
       () => this.saveMetrics(),
       this.metricsSaveInterval,

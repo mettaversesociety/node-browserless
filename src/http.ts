@@ -1,6 +1,9 @@
-import http from 'http';
+import {
+  BrowserServerOptions,
+  CDPLaunchOptions,
+} from '@browserless.io/browserless';
 
-import { BrowserServerOptions, CDPLaunchOptions } from './types';
+import http from 'http';
 
 export const errorCodes = {
   400: {
