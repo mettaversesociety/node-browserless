@@ -1,0 +1,221 @@
+{
+  "type": "array",
+  "items": {
+    "$ref": "#/definitions/BrowserlessSessionJSON"
+  },
+  "definitions": {
+    "BrowserlessSessionJSON": {
+      "type": "object",
+      "properties": {
+        "browser": {
+          "type": "string"
+        },
+        "id": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "initialConnectURL": {
+          "type": "string"
+        },
+        "killURL": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "launchOptions": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/CDPLaunchOptions"
+            },
+            {
+              "$ref": "#/definitions/BrowserServerOptions"
+            }
+          ]
+        },
+        "numbConnected": {
+          "type": "number"
+        },
+        "routePath": {
+          "type": "string"
+        },
+        "startedOn": {
+          "type": "number"
+        },
+        "timeAliveMs": {
+          "type": "number"
+        },
+        "userDataDir": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "browser",
+        "id",
+        "initialConnectURL",
+        "killURL",
+        "launchOptions",
+        "numbConnected",
+        "routePath",
+        "startedOn",
+        "timeAliveMs",
+        "userDataDir"
+      ]
+    },
+    "CDPLaunchOptions": {
+      "type": "object",
+      "properties": {
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "defaultViewport": {
+          "type": "object",
+          "properties": {
+            "deviceScaleFactor": {
+              "type": "number"
+            },
+            "hasTouch": {
+              "type": "boolean"
+            },
+            "height": {
+              "type": "number"
+            },
+            "isLandscape": {
+              "type": "boolean"
+            },
+            "isMobile": {
+              "type": "boolean"
+            },
+            "width": {
+              "type": "number"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "height",
+            "width"
+          ]
+        },
+        "devtools": {
+          "type": "boolean"
+        },
+        "dumpio": {
+          "type": "boolean"
+        },
+        "headless": {
+          "enum": [
+            false,
+            "new",
+            true
+          ]
+        },
+        "ignoreDefaultArgs": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "ignoreHTTPSErrors": {
+          "type": "boolean"
+        },
+        "slowMo": {
+          "type": "number"
+        },
+        "stealth": {
+          "type": "boolean"
+        },
+        "timeout": {
+          "type": "number"
+        },
+        "userDataDir": {
+          "type": "string"
+        },
+        "waitForInitialPage": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "BrowserServerOptions": {
+      "type": "object",
+      "properties": {
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "chromiumSandbox": {
+          "type": "boolean"
+        },
+        "devtools": {
+          "type": "boolean"
+        },
+        "downloadsPath": {
+          "type": "string"
+        },
+        "headless": {
+          "type": "boolean"
+        },
+        "ignoreDefaultArgs": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "proxy": {
+          "type": "object",
+          "properties": {
+            "bypass": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            },
+            "server": {
+              "type": "string"
+            },
+            "username": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "server"
+          ]
+        },
+        "timeout": {
+          "type": "number"
+        },
+        "tracesDir": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

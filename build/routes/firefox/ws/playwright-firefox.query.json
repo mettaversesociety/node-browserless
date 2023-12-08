@@ -1,0 +1,100 @@
+{
+  "type": "object",
+  "properties": {
+    "launch": {
+      "description": "Launch options, which can be either an object\nof puppeteer.launch options or playwright.launchServer\noptions, depending on the API. Must be either JSON\nobject, or a base64-encoded JSON object.",
+      "anyOf": [
+        {
+          "$ref": "#/definitions/BrowserServerOptions"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "blockAds": {
+      "description": "Whether or nor to load ad-blocking extensions for the session.\nThis currently uses uBlock Origin and may cause certain sites\nto not load properly.",
+      "type": "boolean"
+    },
+    "record": {
+      "description": "Whether or nor to record the session. The browser will run\nin \"head-full\" mode, and recording is started and closed\nvia the embedded browserless API. Please refer to the \"Recording\"\nsection in the live documentation site for more details.",
+      "type": "boolean"
+    },
+    "timeout": {
+      "description": "Override the system-level timeout for this request.\nAccepts a value in milliseconds.",
+      "type": "number"
+    },
+    "token": {
+      "description": "The authorization token",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "BrowserServerOptions": {
+      "type": "object",
+      "properties": {
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "chromiumSandbox": {
+          "type": "boolean"
+        },
+        "devtools": {
+          "type": "boolean"
+        },
+        "downloadsPath": {
+          "type": "string"
+        },
+        "headless": {
+          "type": "boolean"
+        },
+        "ignoreDefaultArgs": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "proxy": {
+          "type": "object",
+          "properties": {
+            "bypass": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            },
+            "server": {
+              "type": "string"
+            },
+            "username": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "server"
+          ]
+        },
+        "timeout": {
+          "type": "number"
+        },
+        "tracesDir": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

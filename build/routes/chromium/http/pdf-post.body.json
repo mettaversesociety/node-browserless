@@ -1,0 +1,654 @@
+{
+  "type": "object",
+  "properties": {
+    "addScriptTag": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/FrameAddScriptTagOptions"
+      }
+    },
+    "addStyleTag": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/FrameAddStyleTagOptions"
+      }
+    },
+    "authenticate": {
+      "$ref": "#/definitions/Credentials"
+    },
+    "bestAttempt": {
+      "description": "When bestAttempt is set to true, browserless attempt to proceed\nwhen \"awaited\" events fail or timeout. This includes things like\ngoto, waitForSelector, and more.",
+      "type": "boolean"
+    },
+    "blockModals": {
+      "type": "boolean"
+    },
+    "cookies": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Protocol.Network.CookieParam"
+      }
+    },
+    "emulateMediaType": {
+      "type": "string"
+    },
+    "gotoOptions": {
+      "$ref": "#/definitions/GoToOptions"
+    },
+    "html": {
+      "type": "string"
+    },
+    "options": {
+      "$ref": "#/definitions/PDFOptions"
+    },
+    "rejectRequestPattern": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "rejectResourceTypes": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "cspviolationreport",
+          "document",
+          "eventsource",
+          "fetch",
+          "font",
+          "image",
+          "manifest",
+          "media",
+          "other",
+          "ping",
+          "prefetch",
+          "preflight",
+          "script",
+          "signedexchange",
+          "stylesheet",
+          "texttrack",
+          "websocket",
+          "xhr"
+        ],
+        "type": "string"
+      }
+    },
+    "requestInterceptors": {
+      "type": "array",
+      "items": {
+        "description": "An array of patterns (using `req.url().match(r.pattern)` to match) and their\ncorresponding responses to use in order to fulfill those requests.",
+        "type": "object",
+        "properties": {
+          "pattern": {
+            "description": "An array of patterns (using `req.url().match(r.pattern)` to match) and their\ncorresponding responses to use in order to fulfill those requests.",
+            "type": "string"
+          },
+          "response": {
+            "$ref": "#/definitions/Partial<ResponseForRequest>"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "pattern",
+          "response"
+        ]
+      }
+    },
+    "setExtraHTTPHeaders": {
+      "$ref": "#/definitions/Record<string,string>"
+    },
+    "setJavaScriptEnabled": {
+      "type": "boolean"
+    },
+    "url": {
+      "type": "string"
+    },
+    "userAgent": {
+      "type": "string"
+    },
+    "viewport": {
+      "$ref": "#/definitions/Viewport"
+    },
+    "waitForEvent": {
+      "type": "object",
+      "properties": {
+        "event": {
+          "type": "string"
+        },
+        "timeout": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event"
+      ]
+    },
+    "waitForFunction": {
+      "type": "object",
+      "properties": {
+        "fn": {
+          "description": "The function, or statement, to be evaluated in browser context",
+          "type": "string"
+        },
+        "polling": {
+          "description": "An interval at which the pageFunction is executed, defaults to raf.\nIf polling is a number, then it is treated as an interval in milliseconds\nat which the function would be executed. If polling is a string,\nthen it can be one of the following values: \"raf\" or \"mutation\"",
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "timeout": {
+          "description": "Maximum time to wait for in milliseconds. Defaults to 30000 (30 seconds).\nPass 0 to disable timeout.",
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "fn"
+      ]
+    },
+    "waitForSelector": {
+      "type": "object",
+      "properties": {
+        "hidden": {
+          "type": "boolean"
+        },
+        "selector": {
+          "type": "string"
+        },
+        "timeout": {
+          "type": "number"
+        },
+        "visible": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "selector"
+      ]
+    },
+    "waitForTimeout": {
+      "type": "number"
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "FrameAddScriptTagOptions": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "description": "URL of the script to be added.",
+          "type": "string"
+        },
+        "path": {
+          "description": "Path to a JavaScript file to be injected into the frame.",
+          "type": "string"
+        },
+        "content": {
+          "description": "JavaScript to be injected into the frame.",
+          "type": "string"
+        },
+        "type": {
+          "description": "Sets the `type` of the script. Use `module` in order to load an ES2015 module.",
+          "type": "string"
+        },
+        "id": {
+          "description": "Sets the `id` of the script.",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "FrameAddStyleTagOptions": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "description": "the URL of the CSS file to be added.",
+          "type": "string"
+        },
+        "path": {
+          "description": "The path to a CSS file to be injected into the frame.",
+          "type": "string"
+        },
+        "content": {
+          "description": "Raw CSS content to be injected into the frame.",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Credentials": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "password",
+        "username"
+      ]
+    },
+    "Protocol.Network.CookieParam": {
+      "description": "Cookie parameter object",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Cookie name.",
+          "type": "string"
+        },
+        "value": {
+          "description": "Cookie value.",
+          "type": "string"
+        },
+        "url": {
+          "description": "The request-URI to associate with the setting of the cookie. This value can affect the\ndefault domain, path, source port, and source scheme values of the created cookie.",
+          "type": "string"
+        },
+        "domain": {
+          "description": "Cookie domain.",
+          "type": "string"
+        },
+        "path": {
+          "description": "Cookie path.",
+          "type": "string"
+        },
+        "secure": {
+          "description": "True if cookie is secure.",
+          "type": "boolean"
+        },
+        "httpOnly": {
+          "description": "True if cookie is http-only.",
+          "type": "boolean"
+        },
+        "sameSite": {
+          "description": "Cookie SameSite type.",
+          "enum": [
+            "Lax",
+            "None",
+            "Strict"
+          ],
+          "type": "string"
+        },
+        "expires": {
+          "description": "Cookie expiration date, session cookie if not set",
+          "type": "number"
+        },
+        "priority": {
+          "description": "Cookie Priority.",
+          "enum": [
+            "High",
+            "Low",
+            "Medium"
+          ],
+          "type": "string"
+        },
+        "sameParty": {
+          "description": "True if cookie is SameParty.",
+          "type": "boolean"
+        },
+        "sourceScheme": {
+          "description": "Cookie source scheme type.",
+          "enum": [
+            "NonSecure",
+            "Secure",
+            "Unset"
+          ],
+          "type": "string"
+        },
+        "sourcePort": {
+          "description": "Cookie source port. Valid values are {-1, [1, 65535]}, -1 indicates an unspecified port.\nAn unspecified port value allows protocol clients to emulate legacy cookie scope for the port.\nThis is a temporary ability and it will be removed in the future.",
+          "type": "number"
+        },
+        "partitionKey": {
+          "description": "Cookie partition key. The site of the top-level URL the browser was visiting at the start\nof the request to the endpoint that set the cookie.\nIf not set, the cookie will be set as not partitioned.",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "value"
+      ]
+    },
+    "GoToOptions": {
+      "type": "object",
+      "properties": {
+        "referer": {
+          "description": "If provided, it will take preference over the referer header value set by\n{@link Page.setExtraHTTPHeaderspage.setExtraHTTPHeaders()}.",
+          "type": "string"
+        },
+        "referrerPolicy": {
+          "description": "If provided, it will take preference over the referer-policy header value\nset by {@link Page.setExtraHTTPHeaderspage.setExtraHTTPHeaders()}.",
+          "type": "string"
+        },
+        "timeout": {
+          "description": "Maximum wait time in milliseconds. Pass 0 to disable the timeout.\n\nThe default value can be changed by using the\n{@link Page.setDefaultTimeout} or {@link Page.setDefaultNavigationTimeout}\nmethods.",
+          "type": "number"
+        },
+        "waitUntil": {
+          "description": "When to consider waiting succeeds. Given an array of event strings, waiting\nis considered to be successful after all events have been fired.",
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PuppeteerLifeCycleEvent"
+              }
+            },
+            {
+              "enum": [
+                "domcontentloaded",
+                "load",
+                "networkidle0",
+                "networkidle2"
+              ],
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "PuppeteerLifeCycleEvent": {
+      "enum": [
+        "domcontentloaded",
+        "load",
+        "networkidle0",
+        "networkidle2"
+      ],
+      "type": "string"
+    },
+    "PDFOptions": {
+      "description": "Valid options to configure PDF generation via {@link Page.pdf}.",
+      "type": "object",
+      "properties": {
+        "scale": {
+          "description": "Scales the rendering of the web page. Amount must be between `0.1` and `2`.",
+          "type": "number"
+        },
+        "displayHeaderFooter": {
+          "description": "Whether to show the header and footer.",
+          "type": "boolean"
+        },
+        "headerTemplate": {
+          "description": "HTML template for the print header. Should be valid HTML with the following\nclasses used to inject values into them:\n\n- `date` formatted print date\n\n- `title` document title\n\n- `url` document location\n\n- `pageNumber` current page number\n\n- `totalPages` total pages in the document",
+          "type": "string"
+        },
+        "footerTemplate": {
+          "description": "HTML template for the print footer. Has the same constraints and support\nfor special classes as {@link PDFOptionsPDFOptions.headerTemplate}.",
+          "type": "string"
+        },
+        "printBackground": {
+          "description": "Set to `true` to print background graphics.",
+          "type": "boolean"
+        },
+        "landscape": {
+          "description": "Whether to print in landscape orientation.",
+          "type": "boolean"
+        },
+        "pageRanges": {
+          "description": "Paper ranges to print, e.g. `1-5, 8, 11-13`.",
+          "type": "string"
+        },
+        "format": {
+          "description": "All the valid paper format types when printing a PDF.",
+          "enum": [
+            "A0",
+            "A1",
+            "A2",
+            "A3",
+            "A4",
+            "A5",
+            "A6",
+            "LEDGER",
+            "LEGAL",
+            "LETTER",
+            "Ledger",
+            "Legal",
+            "Letter",
+            "TABLOID",
+            "Tabloid",
+            "a0",
+            "a1",
+            "a2",
+            "a3",
+            "a4",
+            "a5",
+            "a6",
+            "ledger",
+            "legal",
+            "letter",
+            "tabloid"
+          ],
+          "type": "string"
+        },
+        "width": {
+          "description": "Sets the width of paper. You can pass in a number or a string with a unit.",
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "height": {
+          "description": "Sets the height of paper. You can pass in a number or a string with a unit.",
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "preferCSSPageSize": {
+          "description": "Give any CSS `@page` size declared in the page priority over what is\ndeclared in the `width` or `height` or `format` option.",
+          "type": "boolean"
+        },
+        "margin": {
+          "description": "Set the PDF margins.",
+          "$ref": "#/definitions/PDFMargin"
+        },
+        "path": {
+          "description": "The path to save the file to.",
+          "type": "string"
+        },
+        "omitBackground": {
+          "description": "Hides default white background and allows generating pdfs with transparency.",
+          "type": "boolean"
+        },
+        "tagged": {
+          "description": "Generate tagged (accessible) PDF.",
+          "type": "boolean"
+        },
+        "timeout": {
+          "description": "Timeout in milliseconds. Pass `0` to disable timeout.",
+          "type": "number"
+        }
+      },
+      "additionalProperties": false
+    },
+    "PDFMargin": {
+      "type": "object",
+      "properties": {
+        "top": {
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "bottom": {
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "left": {
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "right": {
+          "type": [
+            "string",
+            "number"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "Partial<ResponseForRequest>": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "number"
+        },
+        "headers": {
+          "description": "Optional response headers. All values are converted to strings.",
+          "$ref": "#/definitions/Record<string,unknown>"
+        },
+        "contentType": {
+          "type": "string"
+        },
+        "body": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "patternProperties": {
+                "^[0-9]+$": {
+                  "type": "number"
+                }
+              },
+              "properties": {
+                "BYTES_PER_ELEMENT": {
+                  "type": "number"
+                },
+                "buffer": {
+                  "$ref": "#/definitions/ArrayBufferLike"
+                },
+                "byteLength": {
+                  "type": "number"
+                },
+                "byteOffset": {
+                  "type": "number"
+                },
+                "length": {
+                  "type": "number"
+                },
+                "__@toStringTag@42843": {
+                  "type": "string",
+                  "const": "Uint8Array"
+                }
+              },
+              "required": [
+                "BYTES_PER_ELEMENT",
+                "__@toStringTag@42843",
+                "buffer",
+                "byteLength",
+                "byteOffset",
+                "length"
+              ]
+            },
+            {
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "Record<string,unknown>": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "ArrayBufferLike": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ArrayBuffer"
+        },
+        {
+          "$ref": "#/definitions/SharedArrayBuffer"
+        }
+      ]
+    },
+    "ArrayBuffer": {
+      "type": "object",
+      "properties": {
+        "byteLength": {
+          "type": "number"
+        },
+        "__@toStringTag@42843": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "__@toStringTag@42843",
+        "byteLength"
+      ]
+    },
+    "SharedArrayBuffer": {
+      "type": "object",
+      "properties": {
+        "byteLength": {
+          "type": "number"
+        },
+        "__@species@42944": {
+          "$ref": "#/definitions/SharedArrayBuffer"
+        },
+        "__@toStringTag@42843": {
+          "type": "string",
+          "const": "SharedArrayBuffer"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "__@species@42944",
+        "__@toStringTag@42843",
+        "byteLength"
+      ]
+    },
+    "Record<string,string>": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "Viewport": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "description": "The page width in pixels.",
+          "type": "number"
+        },
+        "height": {
+          "description": "The page height in pixels.",
+          "type": "number"
+        },
+        "deviceScaleFactor": {
+          "description": "Specify device scale factor.\nSee {@link https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio devicePixelRatio} for more info.",
+          "type": "number"
+        },
+        "isMobile": {
+          "description": "Whether the `meta viewport` tag is taken into account.",
+          "type": "boolean"
+        },
+        "isLandscape": {
+          "description": "Specifies if the viewport is in landscape mode.",
+          "type": "boolean"
+        },
+        "hasTouch": {
+          "description": "Specify if the viewport supports touch events.",
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "height",
+        "width"
+      ]
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

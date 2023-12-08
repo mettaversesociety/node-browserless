@@ -1,0 +1,4 @@
+{
+  "description": "Responses are determined by the returned value of the function\nitself. Binary responses (PDF's, screenshots) are returned back\nas binary data, and primitive JavaScript values are returned back\nby type (HTML data is \"text/html\", Objects are \"application/json\")",
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

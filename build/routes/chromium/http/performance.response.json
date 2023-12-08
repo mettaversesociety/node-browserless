@@ -1,0 +1,7 @@
+{
+  "description": "The response of the lighthouse stats. Response objects are\ndetermined by the type of budgets and config in the POST\nJSON body",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": true,
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

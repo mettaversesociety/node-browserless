@@ -1,0 +1,107 @@
+{
+  "type": "object",
+  "properties": {
+    "allowCORS": {
+      "type": "boolean"
+    },
+    "allowFileProtocol": {
+      "type": "boolean"
+    },
+    "allowGetCalls": {
+      "type": "boolean"
+    },
+    "concurrent": {
+      "type": "number"
+    },
+    "data": {
+      "type": "string"
+    },
+    "debug": {
+      "type": "string"
+    },
+    "errorAlertURL": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "healthFailureURL": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "host": {
+      "type": "string"
+    },
+    "maxCPU": {
+      "type": "number"
+    },
+    "maxMemory": {
+      "type": "number"
+    },
+    "metricsJSONPath": {
+      "type": "string"
+    },
+    "port": {
+      "type": "number"
+    },
+    "queued": {
+      "type": "number"
+    },
+    "queuedAlertURL": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "rejectAlertURL": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "retries": {
+      "type": "number"
+    },
+    "timeout": {
+      "type": "number"
+    },
+    "timeoutAlertURL": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "token": {
+      "type": [
+        "null",
+        "string"
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "allowCORS",
+    "allowFileProtocol",
+    "allowGetCalls",
+    "concurrent",
+    "data",
+    "debug",
+    "errorAlertURL",
+    "healthFailureURL",
+    "host",
+    "maxCPU",
+    "maxMemory",
+    "metricsJSONPath",
+    "port",
+    "queued",
+    "queuedAlertURL",
+    "rejectAlertURL",
+    "retries",
+    "timeout",
+    "timeoutAlertURL",
+    "token"
+  ],
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

@@ -1,0 +1,120 @@
+{
+  "type": "object",
+  "properties": {
+    "launch": {
+      "description": "Launch options, which can be either an object\nof puppeteer.launch options or playwright.launchServer\noptions, depending on the API. Must be either JSON\nobject, or a base64-encoded JSON object.",
+      "anyOf": [
+        {
+          "$ref": "#/definitions/CDPLaunchOptions"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "blockAds": {
+      "description": "Whether or nor to load ad-blocking extensions for the session.\nThis currently uses uBlock Origin and may cause certain sites\nto not load properly.",
+      "type": "boolean"
+    },
+    "record": {
+      "description": "Whether or nor to record the session. The browser will run\nin \"head-full\" mode, and recording is started and closed\nvia the embedded browserless API. Please refer to the \"Recording\"\nsection in the live documentation site for more details.",
+      "type": "boolean"
+    },
+    "timeout": {
+      "description": "Override the system-level timeout for this request.\nAccepts a value in milliseconds.",
+      "type": "number"
+    },
+    "token": {
+      "description": "The authorization token",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "CDPLaunchOptions": {
+      "type": "object",
+      "properties": {
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "defaultViewport": {
+          "type": "object",
+          "properties": {
+            "deviceScaleFactor": {
+              "type": "number"
+            },
+            "hasTouch": {
+              "type": "boolean"
+            },
+            "height": {
+              "type": "number"
+            },
+            "isLandscape": {
+              "type": "boolean"
+            },
+            "isMobile": {
+              "type": "boolean"
+            },
+            "width": {
+              "type": "number"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "height",
+            "width"
+          ]
+        },
+        "devtools": {
+          "type": "boolean"
+        },
+        "dumpio": {
+          "type": "boolean"
+        },
+        "headless": {
+          "enum": [
+            false,
+            "new",
+            true
+          ]
+        },
+        "ignoreDefaultArgs": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "ignoreHTTPSErrors": {
+          "type": "boolean"
+        },
+        "slowMo": {
+          "type": "number"
+        },
+        "stealth": {
+          "type": "boolean"
+        },
+        "timeout": {
+          "type": "number"
+        },
+        "userDataDir": {
+          "type": "string"
+        },
+        "waitForInitialPage": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

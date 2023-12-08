@@ -1,0 +1,5 @@
+{
+  "description": "Response can either be a text/plain base64 encoded body\nor a binary stream with png/jpeg as a content-type",
+  "type": "string",
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

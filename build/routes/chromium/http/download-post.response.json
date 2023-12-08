@@ -1,0 +1,4 @@
+{
+  "description": "Responses are determined by the returned value of the downloads\nthemselves, so there isn't a static response type for this API.",
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

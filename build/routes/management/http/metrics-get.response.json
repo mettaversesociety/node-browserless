@@ -1,0 +1,94 @@
+{
+  "type": "array",
+  "items": {
+    "$ref": "#/definitions/IBrowserlessStats"
+  },
+  "definitions": {
+    "IBrowserlessStats": {
+      "type": "object",
+      "properties": {
+        "cpu": {
+          "type": [
+            "null",
+            "number"
+          ]
+        },
+        "date": {
+          "type": "number"
+        },
+        "error": {
+          "type": "number"
+        },
+        "maxConcurrent": {
+          "type": "number"
+        },
+        "maxTime": {
+          "type": "number"
+        },
+        "meanTime": {
+          "type": "number"
+        },
+        "memory": {
+          "type": [
+            "null",
+            "number"
+          ]
+        },
+        "minTime": {
+          "type": "number"
+        },
+        "queued": {
+          "type": "number"
+        },
+        "rejected": {
+          "type": "number"
+        },
+        "sessionTimes": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "successful": {
+          "type": "number"
+        },
+        "timedout": {
+          "type": "number"
+        },
+        "totalTime": {
+          "type": "number"
+        },
+        "unauthorized": {
+          "type": "number"
+        },
+        "unhealthy": {
+          "type": "number"
+        },
+        "units": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "cpu",
+        "date",
+        "error",
+        "maxConcurrent",
+        "maxTime",
+        "meanTime",
+        "memory",
+        "minTime",
+        "queued",
+        "rejected",
+        "sessionTimes",
+        "successful",
+        "timedout",
+        "totalTime",
+        "unauthorized",
+        "unhealthy",
+        "units"
+      ]
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

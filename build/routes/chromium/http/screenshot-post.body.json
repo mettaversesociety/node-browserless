@@ -1,0 +1,604 @@
+{
+  "type": "object",
+  "properties": {
+    "addScriptTag": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/FrameAddScriptTagOptions"
+      }
+    },
+    "addStyleTag": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/FrameAddStyleTagOptions"
+      }
+    },
+    "authenticate": {
+      "$ref": "#/definitions/Credentials"
+    },
+    "bestAttempt": {
+      "description": "When bestAttempt is set to true, browserless attempt to proceed\nwhen \"awaited\" events fail or timeout. This includes things like\ngoto, waitForSelector, and more.",
+      "type": "boolean"
+    },
+    "cookies": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Protocol.Network.CookieParam"
+      }
+    },
+    "emulateMediaType": {
+      "type": "string"
+    },
+    "gotoOptions": {
+      "$ref": "#/definitions/GoToOptions"
+    },
+    "html": {
+      "type": "string"
+    },
+    "options": {
+      "$ref": "#/definitions/ScreenshotOptions"
+    },
+    "rejectRequestPattern": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "rejectResourceTypes": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "cspviolationreport",
+          "document",
+          "eventsource",
+          "fetch",
+          "font",
+          "image",
+          "manifest",
+          "media",
+          "other",
+          "ping",
+          "prefetch",
+          "preflight",
+          "script",
+          "signedexchange",
+          "stylesheet",
+          "texttrack",
+          "websocket",
+          "xhr"
+        ],
+        "type": "string"
+      }
+    },
+    "requestInterceptors": {
+      "type": "array",
+      "items": {
+        "description": "An array of patterns (using `req.url().match(r.pattern)` to match) and their\ncorresponding responses to use in order to fulfill those requests.",
+        "type": "object",
+        "properties": {
+          "pattern": {
+            "description": "An array of patterns (using `req.url().match(r.pattern)` to match) and their\ncorresponding responses to use in order to fulfill those requests.",
+            "type": "string"
+          },
+          "response": {
+            "$ref": "#/definitions/Partial<ResponseForRequest>"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "pattern",
+          "response"
+        ]
+      }
+    },
+    "scrollPage": {
+      "type": "boolean"
+    },
+    "selector": {
+      "type": "string"
+    },
+    "setExtraHTTPHeaders": {
+      "$ref": "#/definitions/Record<string,string>"
+    },
+    "setJavaScriptEnabled": {
+      "type": "boolean"
+    },
+    "url": {
+      "type": "string"
+    },
+    "userAgent": {
+      "type": "string"
+    },
+    "viewport": {
+      "$ref": "#/definitions/Viewport"
+    },
+    "waitForEvent": {
+      "type": "object",
+      "properties": {
+        "event": {
+          "type": "string"
+        },
+        "timeout": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event"
+      ]
+    },
+    "waitForFunction": {
+      "type": "object",
+      "properties": {
+        "fn": {
+          "description": "The function, or statement, to be evaluated in browser context",
+          "type": "string"
+        },
+        "polling": {
+          "description": "An interval at which the pageFunction is executed, defaults to raf.\nIf polling is a number, then it is treated as an interval in milliseconds\nat which the function would be executed. If polling is a string,\nthen it can be one of the following values: \"raf\" or \"mutation\"",
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "timeout": {
+          "description": "Maximum time to wait for in milliseconds. Defaults to 30000 (30 seconds).\nPass 0 to disable timeout.",
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "fn"
+      ]
+    },
+    "waitForSelector": {
+      "type": "object",
+      "properties": {
+        "hidden": {
+          "type": "boolean"
+        },
+        "selector": {
+          "type": "string"
+        },
+        "timeout": {
+          "type": "number"
+        },
+        "visible": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "selector"
+      ]
+    },
+    "waitForTimeout": {
+      "type": "number"
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "FrameAddScriptTagOptions": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "description": "URL of the script to be added.",
+          "type": "string"
+        },
+        "path": {
+          "description": "Path to a JavaScript file to be injected into the frame.",
+          "type": "string"
+        },
+        "content": {
+          "description": "JavaScript to be injected into the frame.",
+          "type": "string"
+        },
+        "type": {
+          "description": "Sets the `type` of the script. Use `module` in order to load an ES2015 module.",
+          "type": "string"
+        },
+        "id": {
+          "description": "Sets the `id` of the script.",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "FrameAddStyleTagOptions": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "description": "the URL of the CSS file to be added.",
+          "type": "string"
+        },
+        "path": {
+          "description": "The path to a CSS file to be injected into the frame.",
+          "type": "string"
+        },
+        "content": {
+          "description": "Raw CSS content to be injected into the frame.",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Credentials": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "password",
+        "username"
+      ]
+    },
+    "Protocol.Network.CookieParam": {
+      "description": "Cookie parameter object",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Cookie name.",
+          "type": "string"
+        },
+        "value": {
+          "description": "Cookie value.",
+          "type": "string"
+        },
+        "url": {
+          "description": "The request-URI to associate with the setting of the cookie. This value can affect the\ndefault domain, path, source port, and source scheme values of the created cookie.",
+          "type": "string"
+        },
+        "domain": {
+          "description": "Cookie domain.",
+          "type": "string"
+        },
+        "path": {
+          "description": "Cookie path.",
+          "type": "string"
+        },
+        "secure": {
+          "description": "True if cookie is secure.",
+          "type": "boolean"
+        },
+        "httpOnly": {
+          "description": "True if cookie is http-only.",
+          "type": "boolean"
+        },
+        "sameSite": {
+          "description": "Cookie SameSite type.",
+          "enum": [
+            "Lax",
+            "None",
+            "Strict"
+          ],
+          "type": "string"
+        },
+        "expires": {
+          "description": "Cookie expiration date, session cookie if not set",
+          "type": "number"
+        },
+        "priority": {
+          "description": "Cookie Priority.",
+          "enum": [
+            "High",
+            "Low",
+            "Medium"
+          ],
+          "type": "string"
+        },
+        "sameParty": {
+          "description": "True if cookie is SameParty.",
+          "type": "boolean"
+        },
+        "sourceScheme": {
+          "description": "Cookie source scheme type.",
+          "enum": [
+            "NonSecure",
+            "Secure",
+            "Unset"
+          ],
+          "type": "string"
+        },
+        "sourcePort": {
+          "description": "Cookie source port. Valid values are {-1, [1, 65535]}, -1 indicates an unspecified port.\nAn unspecified port value allows protocol clients to emulate legacy cookie scope for the port.\nThis is a temporary ability and it will be removed in the future.",
+          "type": "number"
+        },
+        "partitionKey": {
+          "description": "Cookie partition key. The site of the top-level URL the browser was visiting at the start\nof the request to the endpoint that set the cookie.\nIf not set, the cookie will be set as not partitioned.",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "value"
+      ]
+    },
+    "GoToOptions": {
+      "type": "object",
+      "properties": {
+        "referer": {
+          "description": "If provided, it will take preference over the referer header value set by\n{@link Page.setExtraHTTPHeaderspage.setExtraHTTPHeaders()}.",
+          "type": "string"
+        },
+        "referrerPolicy": {
+          "description": "If provided, it will take preference over the referer-policy header value\nset by {@link Page.setExtraHTTPHeaderspage.setExtraHTTPHeaders()}.",
+          "type": "string"
+        },
+        "timeout": {
+          "description": "Maximum wait time in milliseconds. Pass 0 to disable the timeout.\n\nThe default value can be changed by using the\n{@link Page.setDefaultTimeout} or {@link Page.setDefaultNavigationTimeout}\nmethods.",
+          "type": "number"
+        },
+        "waitUntil": {
+          "description": "When to consider waiting succeeds. Given an array of event strings, waiting\nis considered to be successful after all events have been fired.",
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PuppeteerLifeCycleEvent"
+              }
+            },
+            {
+              "enum": [
+                "domcontentloaded",
+                "load",
+                "networkidle0",
+                "networkidle2"
+              ],
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "PuppeteerLifeCycleEvent": {
+      "enum": [
+        "domcontentloaded",
+        "load",
+        "networkidle0",
+        "networkidle2"
+      ],
+      "type": "string"
+    },
+    "ScreenshotOptions": {
+      "type": "object",
+      "properties": {
+        "optimizeForSpeed": {
+          "type": "boolean"
+        },
+        "type": {
+          "enum": [
+            "jpeg",
+            "png",
+            "webp"
+          ],
+          "type": "string"
+        },
+        "quality": {
+          "description": "Quality of the image, between 0-100. Not applicable to `png` images.",
+          "type": "number"
+        },
+        "fromSurface": {
+          "description": "Capture the screenshot from the surface, rather than the view.",
+          "type": "boolean"
+        },
+        "fullPage": {
+          "description": "When `true`, takes a screenshot of the full page.",
+          "type": "boolean"
+        },
+        "omitBackground": {
+          "description": "Hides default white background and allows capturing screenshots with transparency.",
+          "type": "boolean"
+        },
+        "path": {
+          "description": "The file path to save the image to. The screenshot type will be inferred\nfrom file extension. If path is a relative path, then it is resolved\nrelative to current working directory. If no path is provided, the image\nwon't be saved to the disk.",
+          "type": "string"
+        },
+        "clip": {
+          "description": "Specifies the region of the page to clip.",
+          "$ref": "#/definitions/ScreenshotClip"
+        },
+        "encoding": {
+          "description": "Encoding of the image.",
+          "enum": [
+            "base64",
+            "binary"
+          ],
+          "type": "string"
+        },
+        "captureBeyondViewport": {
+          "description": "Capture the screenshot beyond the viewport.",
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ScreenshotClip": {
+      "type": "object",
+      "properties": {
+        "scale": {
+          "type": "number"
+        },
+        "width": {
+          "description": "the width of the element in pixels.",
+          "type": "number"
+        },
+        "height": {
+          "description": "the height of the element in pixels.",
+          "type": "number"
+        },
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "height",
+        "width",
+        "x",
+        "y"
+      ]
+    },
+    "Partial<ResponseForRequest>": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "number"
+        },
+        "headers": {
+          "description": "Optional response headers. All values are converted to strings.",
+          "$ref": "#/definitions/Record<string,unknown>"
+        },
+        "contentType": {
+          "type": "string"
+        },
+        "body": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "patternProperties": {
+                "^[0-9]+$": {
+                  "type": "number"
+                }
+              },
+              "properties": {
+                "BYTES_PER_ELEMENT": {
+                  "type": "number"
+                },
+                "buffer": {
+                  "$ref": "#/definitions/ArrayBufferLike"
+                },
+                "byteLength": {
+                  "type": "number"
+                },
+                "byteOffset": {
+                  "type": "number"
+                },
+                "length": {
+                  "type": "number"
+                },
+                "__@toStringTag@64677": {
+                  "type": "string",
+                  "const": "Uint8Array"
+                }
+              },
+              "required": [
+                "BYTES_PER_ELEMENT",
+                "__@toStringTag@64677",
+                "buffer",
+                "byteLength",
+                "byteOffset",
+                "length"
+              ]
+            },
+            {
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "Record<string,unknown>": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "ArrayBufferLike": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ArrayBuffer"
+        },
+        {
+          "$ref": "#/definitions/SharedArrayBuffer"
+        }
+      ]
+    },
+    "ArrayBuffer": {
+      "type": "object",
+      "properties": {
+        "byteLength": {
+          "type": "number"
+        },
+        "__@toStringTag@64677": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "__@toStringTag@64677",
+        "byteLength"
+      ]
+    },
+    "SharedArrayBuffer": {
+      "type": "object",
+      "properties": {
+        "byteLength": {
+          "type": "number"
+        },
+        "__@species@64778": {
+          "$ref": "#/definitions/SharedArrayBuffer"
+        },
+        "__@toStringTag@64677": {
+          "type": "string",
+          "const": "SharedArrayBuffer"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "__@species@64778",
+        "__@toStringTag@64677",
+        "byteLength"
+      ]
+    },
+    "Record<string,string>": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "Viewport": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "description": "The page width in pixels.",
+          "type": "number"
+        },
+        "height": {
+          "description": "The page height in pixels.",
+          "type": "number"
+        },
+        "deviceScaleFactor": {
+          "description": "Specify device scale factor.\nSee {@link https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio devicePixelRatio} for more info.",
+          "type": "number"
+        },
+        "isMobile": {
+          "description": "Whether the `meta viewport` tag is taken into account.",
+          "type": "boolean"
+        },
+        "isLandscape": {
+          "description": "Specifies if the viewport is in landscape mode.",
+          "type": "boolean"
+        },
+        "hasTouch": {
+          "description": "Specify if the viewport supports touch events.",
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "height",
+        "width"
+      ]
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

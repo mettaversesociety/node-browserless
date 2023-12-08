@@ -1,0 +1,325 @@
+{
+  "description": "The JSON response body",
+  "type": "object",
+  "properties": {
+    "data": {
+      "anyOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "results": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "attributes": {
+                      "description": "A list of HTML attributes of the element",
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "description": "The name of the HTML attribute for the element",
+                            "type": "string"
+                          },
+                          "value": {
+                            "description": "The value of the HTML attribute for the element",
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                          "name",
+                          "value"
+                        ]
+                      }
+                    },
+                    "height": {
+                      "description": "The height the element",
+                      "type": "number"
+                    },
+                    "html": {
+                      "description": "The HTML the element",
+                      "type": "string"
+                    },
+                    "left": {
+                      "description": "The amount of pixels from the left of the page",
+                      "type": "number"
+                    },
+                    "text": {
+                      "description": "The text the element",
+                      "type": "string"
+                    },
+                    "top": {
+                      "description": "The amount of pixels from the top of the page",
+                      "type": "number"
+                    },
+                    "width": {
+                      "description": "The width the element",
+                      "type": "number"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "attributes",
+                    "height",
+                    "html",
+                    "left",
+                    "text",
+                    "top",
+                    "width"
+                  ]
+                }
+              },
+              "selector": {
+                "description": "The DOM selector of the element",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "results",
+              "selector"
+            ]
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "debug": {
+      "description": "When debugOpts options are present, results are here",
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "console": {
+              "description": "A list of console messages from the browser",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "cookies": {
+              "description": "List of cookies for the site or null",
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Protocol.Network.Cookie"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "html": {
+              "description": "The HTML string of the website or null",
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            "network": {
+              "type": "object",
+              "properties": {
+                "inbound": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/InBoundRequest"
+                  }
+                },
+                "outbound": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/OutBoundRequest"
+                  }
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "inbound",
+                "outbound"
+              ]
+            },
+            "screenshot": {
+              "description": "A base64-encoded string of the site or null",
+              "type": [
+                "null",
+                "string"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "console",
+            "cookies",
+            "html",
+            "network",
+            "screenshot"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "data",
+    "debug"
+  ],
+  "definitions": {
+    "Protocol.Network.Cookie": {
+      "description": "Cookie object",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Cookie name.",
+          "type": "string"
+        },
+        "value": {
+          "description": "Cookie value.",
+          "type": "string"
+        },
+        "domain": {
+          "description": "Cookie domain.",
+          "type": "string"
+        },
+        "path": {
+          "description": "Cookie path.",
+          "type": "string"
+        },
+        "expires": {
+          "description": "Cookie expiration date as the number of seconds since the UNIX epoch.",
+          "type": "number"
+        },
+        "size": {
+          "description": "Cookie size.",
+          "type": "integer"
+        },
+        "httpOnly": {
+          "description": "True if cookie is http-only.",
+          "type": "boolean"
+        },
+        "secure": {
+          "description": "True if cookie is secure.",
+          "type": "boolean"
+        },
+        "session": {
+          "description": "True in case of session cookie.",
+          "type": "boolean"
+        },
+        "sameSite": {
+          "description": "Cookie SameSite type.",
+          "enum": [
+            "Lax",
+            "None",
+            "Strict"
+          ],
+          "type": "string"
+        },
+        "priority": {
+          "$ref": "#/definitions/Protocol.Network.CookiePriority",
+          "description": "Cookie Priority"
+        },
+        "sameParty": {
+          "description": "True if cookie is SameParty.",
+          "type": "boolean"
+        },
+        "sourceScheme": {
+          "$ref": "#/definitions/Protocol.Network.CookieSourceScheme",
+          "description": "Cookie source scheme type."
+        },
+        "sourcePort": {
+          "description": "Cookie source port. Valid values are {-1, [1, 65535]}, -1 indicates an unspecified port.\nAn unspecified port value allows protocol clients to emulate legacy cookie scope for the port.\nThis is a temporary ability and it will be removed in the future.",
+          "type": "integer"
+        },
+        "partitionKey": {
+          "description": "Cookie partition key. The site of the top-level URL the browser was visiting at the start\nof the request to the endpoint that set the cookie.",
+          "type": "string"
+        },
+        "partitionKeyOpaque": {
+          "description": "True if cookie partition key is opaque.",
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "domain",
+        "expires",
+        "httpOnly",
+        "name",
+        "path",
+        "priority",
+        "sameParty",
+        "secure",
+        "session",
+        "size",
+        "sourcePort",
+        "sourceScheme",
+        "value"
+      ]
+    },
+    "Protocol.Network.CookiePriority": {
+      "description": "Represents the cookie's 'Priority' status:\nhttps://tools.ietf.org/html/draft-west-cookie-priority-00",
+      "enum": [
+        "High",
+        "Low",
+        "Medium"
+      ],
+      "type": "string"
+    },
+    "Protocol.Network.CookieSourceScheme": {
+      "description": "Represents the source scheme of the origin that originally set the cookie.\nA value of \"Unset\" allows protocol clients to emulate legacy cookie scope for the scheme.\nThis is a temporary ability and it will be removed in the future.",
+      "enum": [
+        "NonSecure",
+        "Secure",
+        "Unset"
+      ],
+      "type": "string"
+    },
+    "InBoundRequest": {
+      "type": "object",
+      "properties": {
+        "headers": {},
+        "status": {
+          "type": "number"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "headers",
+        "status",
+        "url"
+      ]
+    },
+    "OutBoundRequest": {
+      "type": "object",
+      "properties": {
+        "headers": {},
+        "method": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "headers",
+        "method",
+        "url"
+      ]
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

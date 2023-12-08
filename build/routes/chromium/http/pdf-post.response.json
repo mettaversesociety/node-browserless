@@ -1,0 +1,5 @@
+{
+  "description": "Responds with an application/pdf content-type and a binary PDF",
+  "type": "string",
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

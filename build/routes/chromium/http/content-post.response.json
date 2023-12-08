@@ -1,0 +1,5 @@
+{
+  "description": "An HTML payload of the website or HTML after JavaScript\nparsing and execution.",
+  "type": "string",
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}
